@@ -4,27 +4,39 @@ class GroupsController < ApplicationController
 
   def index
     @groups = Group.all
-end
+  end
 
-def show
-  @group = Group.find(params[:id])
-end
+  def new
+     @group = Group.new
+  end
 
-def edit
-end
+  def show
+    @group = Group.find(params[:id])
+    @posts = @group.posts
+  end
 
-def update
-if  @group.update(group_params)
-  redirect_to groups_path, notice: "Update Success"
-else
-  render :edit
-end
-end
+  def edit
+  end
 
-def destroy
-  @group.destroy
-  redirect_to groups_path, alert: "Group deleted"
-end
+  def update
+    if  @group.update(group_params)
+      redirect_to groups_path, notice: "Update Success"
+    else
+      render :edit
+    end
+  end
+
+  def create
+    @group = Group.new(group_params)
+    @group.save
+
+      redirect_to groups_path
+  end
+
+  def destroy
+    @group.destroy
+    redirect_to groups_path, alert: "Group deleted"
+  end
 
 private
 
